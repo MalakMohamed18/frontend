@@ -1,87 +1,270 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ SecureSphere | End-to-End Encrypted Chat Platform
 
-## Getting Started
+> A modern real-time messaging platform built with privacy and security at its core.
 
-First, run the development server:
+**SecureSphere** is a fully encrypted chat application that uses **End-to-End Encryption (E2EE)** powered by **RSA cryptography**, ensuring that only the sender and recipient can read the messages — not even the server has access to the plaintext content.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+# ✨ Key Features
+
+### 🔐 End-to-End Encryption
+
+All messages are encrypted directly on the client side using RSA encryption via `node-forge`.
+
+### ⚡ Real-Time Messaging
+
+Instant communication powered by **Socket.io** for seamless live chatting.
+
+### 🗝️ Secure Key Management
+
+Automatic generation of:
+
+* Public Key
+* Private Key
+
+during registration or when logging in from a new device.
+
+### ⌨️ Typing Indicators
+
+Live typing events for a modern chat experience.
+
+### 🎨 Modern UI/UX
+
+Smooth and responsive interface built using:
+
+* Next.js
+* Framer Motion
+* Responsive Design Principles
+
+### 🛡️ Decryption Safety
+
+Protection system that prevents displaying corrupted or mismatched encrypted messages.
+
+---
+
+# 🚀 Tech Stack
+
+# 🎨 Frontend
+
+| Technology               | Purpose                  |
+| ------------------------ | ------------------------ |
+| **Next.js (App Router)** | Frontend Framework       |
+| **Socket.io-client**     | Real-time communication  |
+| **Framer Motion**        | Animations & transitions |
+| **Node-forge**           | RSA cryptography         |
+
+---
+
+# ⚙️ Backend
+
+| Technology     | Purpose                           |
+| -------------- | --------------------------------- |
+| **Node.js**    | Runtime Environment               |
+| **Express.js** | API Server                        |
+| **Socket.io**  | Real-time socket communication    |
+| **JWT**        | Authentication & route protection |
+
+---
+
+# 🔐 Encryption Architecture
+
+SecureSphere uses **Asymmetric Encryption (RSA)** to guarantee message confidentiality.
+
+---
+
+## 🗝️ 1. Key Generation
+
+When a user registers:
+
+* A **Public Key** is generated and stored on the server.
+* A **Private Key** is generated and stored locally inside the user's browser only.
+
+```text id="4xx3d6"
+Public Key  → Shared with server
+Private Key → Never leaves the client
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔒 2. Message Encryption
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Before sending a message:
 
-## Learn More
+* The sender fetches the recipient's public key.
+* The message is encrypted locally inside the browser.
 
-To learn more about Next.js, take a look at the following resources:
+```text id="e6d3u9"
+Plain Message
+      ↓
+Encrypted using Recipient Public Key
+      ↓
+Ciphertext Sent to Server
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📡 3. Secure Transmission
 
-## Deploy on Vercel
+Messages travel through:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* Socket.io
+* REST APIs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+in fully encrypted format.
 
+The backend only handles encrypted ciphertext.
 
-------------------------------
-## Secure Messaging Application 
-A real-time, end-to-end encrypted messaging web application built with Node.js, Socket.io, and Next.js. This project demonstrates advanced cryptographic techniques to ensure user privacy and data confidentiality.
-##  Features
+---
 
-* User Registration & Login: Secure authentication system.
-* End-to-End Encryption (E2EE): Messages are encrypted on the client side before transmission.
-* Real-time Chat: Instant messaging using Socket.io.
-* Persistent Storage: Encrypted messages are stored in MongoDB.
-* Secure Password Hashing: Passwords are never stored in plain text.
+## 🔓 4. Message Decryption
 
-##  Cryptographic Implementation## 1. Password Hashing
-We use the bcrypt library to hash user passwords before storing them in the database. This protects user credentials even if the database is compromised.
+When the message reaches the recipient:
 
-* Method: bcrypt.hash() with a salt round of 10. (p. 2)
+* The private key stored locally decrypts the message.
+* The plaintext is never exposed to the server.
 
-## 2. Message Encryption (Option B: RSA)
-This project implements Asymmetric Encryption (RSA) using the node-forge library. (p. 3)
+```text id="q2f1g7"
+Ciphertext
+      ↓
+Decrypted using Recipient Private Key
+      ↓
+Readable Message
+```
 
-* Key Generation: Each user generates a 2048-bit RSA key pair (Public & Private) locally on their device during registration. (p. 3)
-* Public Key: Stored on the server to allow other users to encrypt messages for the receiver.
-* Private Key: Stored locally on the user's device (localStorage). It never leaves the client side, ensuring true End-to-End Encryption.
-* Encryption: Messages are encrypted using the receiver's Public Key. (p. 3)
-* Decryption: Messages are decrypted only by the intended receiver using their Private Key. (p. 3)
+---
 
-##  Technology Stack
+# 📂 Project Structure
 
-* Backend: Node.js, Express.js
-* Database: MongoDB (Mongoose)
-* Real-time: Socket.io
-* Frontend: Next.js, Framer Motion
-* Cryptography: node-forge, bcrypt
+```bash id="x5g7m2"
+frontend/
+│
+├── app/              # Main application pages
+│   ├── chat/
+│   ├── login/
+│   └── register/
+│
+├── components/       # Reusable UI components
+│   └── Navbar/
+│
+├── services/         # Encryption & API logic
+│
+├── public/           # Static assets
+│
+├── styles/           # Global styles
+│
+├── utils/            # Helper functions
+│
+└── package.json
+```
 
-##  How to Run the Project
+---
 
-   1. Clone the repository:
-   
-   git clone <your-repo-link>
-   
-   2. Install Dependencies:
-   * For Backend: cd backend && npm install
-      * For Frontend: cd frontend && npm install
-   3. Environment Setup:
-   * Ensure MongoDB is running on mongodb://127.0.0.1:27017/secure_chat.
-   4. Start the Application:
-   * Backend: npm start (Runs on port 5000)
-      * Frontend: npm run dev (Runs on port 3000)
-   
-------------------------------
+# ⚙️ Getting Started
+
+# 📋 Prerequisites
+
+Before running the project, make sure you have:
+
+* Node.js `v18+`
+* npm or yarn
+
+---
+
+# 📥 Installation
+
+## 1️⃣ Clone The Repository
+
+```bash id="w2pr0d"
+git clone https://github.com/MalakMohamed18/frontend.git
+
+cd frontend
+```
+
+---
+
+## 2️⃣ Install Dependencies
+
+```bash id="djv9fh"
+npm install
+```
+
+---
+
+## 3️⃣ Run Development Server
+
+```bash id="1mg9pb"
+npm run dev
+```
+
+---
+
+# 🌐 Application Flow
+
+```text id="tv7m4a"
+User Authentication
+        ↓
+Generate RSA Keys
+        ↓
+Store Public Key on Server
+        ↓
+Encrypt Messages Client-side
+        ↓
+Send Encrypted Data via Socket.io
+        ↓
+Decrypt Locally on Receiver Device
+```
+
+---
+
+# 🔒 Security Principles
+
+* End-to-End Encryption (E2EE)
+* RSA-Based Cryptography
+* Local Private Key Storage
+* JWT Authentication
+* Protected APIs
+* Zero-Knowledge Architecture
+* Encrypted Real-Time Messaging
+
+---
+
+# 📱 User Experience Features
+
+* Smooth animations with Framer Motion
+* Responsive mobile-friendly interface
+* Real-time online interactions
+* Modern chat UI
+* Secure session handling
+
+---
+
+# 🧪 Future Improvements
+
+* Group Chats
+* Voice & Video Calls
+* File Encryption
+* Message Self-Destruction
+* Multi-Device Sync
+* Push Notifications
+* Biometric Authentication
+* AES Hybrid Encryption Support
+
+---
+
+# 👨‍💻 Development Notes
+
+This project was built with scalability and security in mind and can evolve into:
+
+* Enterprise secure communication apps
+* Military-grade messaging systems
+* Privacy-focused collaboration tools
+* Secure mobile chat platforms
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---

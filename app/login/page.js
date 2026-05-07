@@ -5,6 +5,7 @@ import Navbar from "../component/Navbar";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { generateKeyPair } from "../../services/crypto"; 
+import "../globals.css"
 
 export default function Login() {
   const router = useRouter();
