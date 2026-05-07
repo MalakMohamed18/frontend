@@ -34,3 +34,54 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+------------------------------
+## Secure Messaging Application 
+A real-time, end-to-end encrypted messaging web application built with Node.js, Socket.io, and Next.js. This project demonstrates advanced cryptographic techniques to ensure user privacy and data confidentiality.
+##  Features
+
+* User Registration & Login: Secure authentication system.
+* End-to-End Encryption (E2EE): Messages are encrypted on the client side before transmission.
+* Real-time Chat: Instant messaging using Socket.io.
+* Persistent Storage: Encrypted messages are stored in MongoDB.
+* Secure Password Hashing: Passwords are never stored in plain text.
+
+##  Cryptographic Implementation## 1. Password Hashing
+We use the bcrypt library to hash user passwords before storing them in the database. This protects user credentials even if the database is compromised.
+
+* Method: bcrypt.hash() with a salt round of 10. (p. 2)
+
+## 2. Message Encryption (Option B: RSA)
+This project implements Asymmetric Encryption (RSA) using the node-forge library. (p. 3)
+
+* Key Generation: Each user generates a 2048-bit RSA key pair (Public & Private) locally on their device during registration. (p. 3)
+* Public Key: Stored on the server to allow other users to encrypt messages for the receiver.
+* Private Key: Stored locally on the user's device (localStorage). It never leaves the client side, ensuring true End-to-End Encryption.
+* Encryption: Messages are encrypted using the receiver's Public Key. (p. 3)
+* Decryption: Messages are decrypted only by the intended receiver using their Private Key. (p. 3)
+
+##  Technology Stack
+
+* Backend: Node.js, Express.js
+* Database: MongoDB (Mongoose)
+* Real-time: Socket.io
+* Frontend: Next.js, Framer Motion
+* Cryptography: node-forge, bcrypt
+
+##  How to Run the Project
+
+   1. Clone the repository:
+   
+   git clone <your-repo-link>
+   
+   2. Install Dependencies:
+   * For Backend: cd backend && npm install
+      * For Frontend: cd frontend && npm install
+   3. Environment Setup:
+   * Ensure MongoDB is running on mongodb://127.0.0.1:27017/secure_chat.
+   4. Start the Application:
+   * Backend: npm start (Runs on port 5000)
+      * Frontend: npm run dev (Runs on port 3000)
+   
+------------------------------
